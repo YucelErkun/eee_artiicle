@@ -1,0 +1,170 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mühendislik, Yazılım & Eğitim Kısayolları</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #1a1a2e;
+      color: #e6e6e6;
+      margin: 0;
+      padding: 40px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #ffd700;
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    h2 {
+      color: #00d4ff;
+      font-size: 1.8em;
+      margin-top: 30px;
+      border-bottom: 2px solid #00d4ff;
+      padding-bottom: 10px;
+    }
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    a {
+      display: block;
+      padding: 15px;
+      background-color: #2a2a4a;
+      color: #66d9ef;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    a:hover {
+      background-color: #3a3a6a;
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    @media (max-width: 600px) {
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Mühendislik, Yazılım & Eğitim Kısayolları</h1>
+
+    <h2>🔧 Mühendislik</h2>
+    <div class="link-grid">
+      <a href="https://ieeexplore.ieee.org" target="_blank">IEEE Xplore</a>
+      <a href="https://www.sciencedirect.com" target="_blank">ScienceDirect</a>
+      <a href="https://link.springer.com" target="_blank">SpringerLink</a>
+      <a href="https://dergipark.org.tr" target="_blank">DergiPark</a>
+    </div>
+
+    <h2>💻 Yazılım / Bilgisayar Bilimleri</h2>
+    <div class="link-grid">
+      <a href="https://arxiv.org/list/cs/new" target="_blank">arXiv (Computer Science)</a>
+      <a href="https://dl.acm.org" target="_blank">ACM Digital Library</a>
+      <a href="https://paperswithcode.com" target="_blank">Papers With Code</a>
+      <a href="https://scholar.google.com" target="_blank">Google Scholar</a>
+      <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a>
+      <a href="https://core.ac.uk" target="_blank">CORE</a>
+      <a href="https://doaj.org" target="_blank">DOAJ</a>
+      <a href="https://www.openaire.eu" target="_blank">OpenAIRE</a>
+    </div>
+
+    <h2>🎓 Eğitim Platformları</h2>
+    <div class="link-grid">
+      <a href="https://www.khanacademy.org" target="_blank">Khan Academy</a>
+      <a href="https://www.coursera.org" target="_blank">Coursera</a>
+      <a href="https://www.edx.org" target="_blank">edX</a>
+      <a href="https://www.udemy.com" target="_blank">Udemy</a>
+      <a href="https://ocw.mit.edu" target="_blank">MIT OpenCourseWare</a>
+      <a href="https://turkcekaynaklar.com" target="_blank">TurkceKaynaklar</a>
+    </div>
+
+    <h2>🛠 Teknik Belgeler & Kodlama</h2>
+    <div class="link-grid">
+      <a href="https://www.geeksforgeeks.org" target="_blank">GeeksForGeeks</a>
+      <a href="https://www.w3schools.com" target="_blank">W3Schools</a>
+      <a href="https://developer.mozilla.org" target="_blank">MDN Web Docs</a>
+      <a href="https://stackoverflow.com" target="_blank">Stack Overflow</a>
+      <a href="https://github.com" target="_blank">GitHub</a>
+      <a href="https://www.hackthebox.com" target="_blank">HackTheBox</a>
+      <a href="https://leetcode.com" target="_blank">LeetCode</a>
+      <a href="https://www.hackerrank.com" target="_blank">HackerRank</a>
+    </div>
+
+    <h2>📰 Güncel Kalmak & Araştırma</h2>
+    <div class="link-grid">
+      <a href="https://www.technologyreview.com" target="_blank">MIT Technology Review</a>
+      <a href="https://news.ycombinator.com" target="_blank">Hacker News</a>
+      <a href="https://medium.com/tag/machine-learning" target="_blank">Medium – Machine Learning</a>
+      <a href="https://www.reddit.com/r/MachineLearning/" target="_blank">Reddit – Machine Learning</a>
+      <a href="https://www.reddit.com/r/EngineeringStudents/" target="_blank">Reddit – Engineering Students</a>
+      <a href="https://eric.ed.gov" target="_blank">ERIC</a>
+      <a href="https://www.jstor.org" target="_blank">JSTOR</a>
+      <a href="https://www.academia.edu" target="_blank">Academia.edu</a>
+      <a href="https://www.researchgate.net" target="_blank">ResearchGate</a>
+      <a href="https://tez.yok.gov.tr" target="_blank">YÖK Tez</a>
+      <a href="http://www.ndltd.org" target="_blank">NDLTD</a>
+    </div>
+  </div>
+</body>
+</html>
