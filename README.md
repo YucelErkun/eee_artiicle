@@ -19,7 +19,7 @@ Bu proje, mühendislik ve yazılım konularında popüler dergilere ve araştır
 
 ## Kurulum
 
-1. [Makale Kısayolları](makale_kisayollari.html) dosyasını bilgisayarınıza indirin.
+1. [EEE Makale](index.html) dosyasını bilgisayarınıza indirin.
 2. Dosyayı bir tarayıcıda açarak, hızlı bir şekilde istediğiniz makale sayfasına ulaşabilirsiniz.
 
 ## Kullanım
